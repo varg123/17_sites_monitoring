@@ -21,7 +21,7 @@ def load_urls4check(path):
 def is_server_respond_with_200(url):
     try:
         return urllib.request.urlopen(url).status == 200
-    except:
+    except urllib.error.URLError:
         return False
 
 
