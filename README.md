@@ -1,7 +1,33 @@
-# Sites Monitoring Utility
+# Мониторинг сайтов
 
-[TODO. There will be project description]
+Выводит статус каждого сайта из списка по результатам следующих проверок:
+1. Сервер отвечает на запрос статусом HTTP 200.
+2. Доменное имя сайта проплачено как минимум на 1 месяц вперед.
 
-# Project Goals
+# Как запустить
 
-The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
+Скрипт требует для своей работы установленного интерпретатора Python версии 3.5.
+Для работы скрипта обязательно указывается путь к файлу с списком проверяемых доменов.
+
+Пример на Linux:
+
+```bash
+
+$ python check_sites_health.py domens_list.txt
+
+    Домен: http://ya.ru
+    Ответ статусом HTTP 200: True
+    Проплачен более чем на 31 дней: True
+
+
+    Домен: https://google.com
+    Ответ статусом HTTP 200: True
+    Проплачен более чем на 31 дней: True
+
+```
+
+
+# Цели проекта
+
+Код создан в учебных целях. В рамках учебного курса по веб-разработке - [DEVMAN.org](https://devman.org)
+
