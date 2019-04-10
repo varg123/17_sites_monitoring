@@ -1,8 +1,8 @@
-import urllib.request
 import whois
 from datetime import datetime, timedelta
 from urllib.parse import urlparse
 import argparse
+import requests
 
 DAYS_MIN_PAID_COUNT = 31
 
@@ -15,13 +15,14 @@ def parse_args():
 
 def load_urls4check(path):
     with open(path, 'rt', encoding='utf8') as file_with_url:
-        return file_with_url.read().split('\n')
+        url_list = file_with_url.read().splitlines()
+        return [url for url in url_list if url != '']
 
 
 def is_server_respond_with_200(url):
     try:
-        return urllib.request.urlopen(url).status == 200
-    except urllib.error.URLError:
+        return requests.get(url).ok
+    except requests.exceptions.ConnectionError:
         return False
 
 
@@ -51,7 +52,11 @@ def main():
     Ответ статусом HTTP 200: {}
     Проплачен более чем на {} дней: {}
     '''
-    for url in load_urls4check(file_path):
+    try:
+        urls = load_urls4check(file_path)
+    except FileNotFoundError:
+        exit('Файл не найден')
+    for url in urls:
         url_valid = get_valid_url(url)
         expiration_date = get_domain_expiration_date(url_valid)
         domain_info = tmpl_domain_info.format(
